@@ -61,7 +61,7 @@ function initMap() {
         map.setCenter({lat:latitud,lng:longitud});
         map.setZoom(17);
 
-        inputOrigen.value = new google.maps.LatLng(latitud,longitud);
+        //inputOrigen.value = new google.maps.LatLng(latitud,longitud); //CON ESTO LOGRO QUE EN EL INPUT ORIGEN SALGA LAS COORDENADAS DE MI UBICACION
 
         markerOrigen.setVisible(true);
 
