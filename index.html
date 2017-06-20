@@ -14,21 +14,25 @@
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
-    <section>
+    <section class="container-fluid">
         <div class="row">
             <div class="col-md-3 col-sm-3">
                 <button id="encuentrame" class="btn btn-info">Encuéntrame</button>
             </div>
             <div class="col-md-3 col-sm-3">
-                <label for="origen">Origen:</label>
-                <input type="text" id="origen" name="origen" placeholder="Introduce una ubicación">
+                <div class="form-group">
+                    <label for="origen">Origen:</label>
+                    <input type="text" id="origen" name="origen" placeholder="Introduce una ubicación" class="form-control">
+                </div>
             </div>
             <div class="col-md-3 col-sm-3">
-                <label for="destino">Destino:</label>
-                <input type="text" id="destino" name="destino" placeholder="Introduce una ubicación">
+                <div class="form-group">
+                    <label for="destino">Destino:</label>
+                    <input type="text" id="destino" name="destino" placeholder="Introduce una ubicación" class="form-control">
+                </div>
             </div>
             <div class="col-md-3 col-sm-3">
-                <button id="ruta" class="btn btn-info">Ruta</button>
+                <button id="ruta" class="btn btn-success">Ruta</button>
             </div>
         </div>
         <div class="row">

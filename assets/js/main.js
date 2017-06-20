@@ -3,10 +3,9 @@ function initMap() {
         zoom: 10,
         center: {lat: -33.4724728, lng: -70.9100251},
         mapTypeControl: false,
-        zoomControl: true,
+        zoomControl: false,
         streetViewControl:false
     });
-
 
     var inputOrigen = document.getElementById('origen');
     var autocompleteOrigen = new google.maps.places.Autocomplete(inputOrigen);
@@ -25,8 +24,14 @@ function initMap() {
     crearListener(autocompleteDestino, detalleUbicacionDestino, markerDestino);
 
     /* Mi ubicación actual */
-    document.getElementById("encuentrame").addEventListener("click",buscarMiUbicacion);
-    var latitud,longitud;
+    document.getElementById("encuentrame").addEventListener("click", buscarMiUbicacion);
+    /* Ruta */
+    var directionsService = new google.maps.DirectionsService;
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+
+    document.getElementById("ruta").addEventListener("click", function(){dibujarRuta(directionsService, directionsDisplay)});
+
+    directionsDisplay.setMap(map);
 
     function crearListener(autocomplete, detalleUbicacion, marker) {
         autocomplete.addListener('place_changed', function() {
@@ -43,17 +48,24 @@ function initMap() {
         }
     }
 
+    var funcionError = function(error) {
+        alert("Tenemos un problema para encontrar tu ubicación");
+    }
+
     var marcarUbicacionAutomatica = function(posicion) {
+        var latitud,longitud;
         latitud = posicion.coords.latitude;
-        longitud= posicion.coords.longitude;
+        longitud = posicion.coords.longitude;
 
         markerOrigen.setPosition(new google.maps.LatLng(latitud,longitud));
         map.setCenter({lat:latitud,lng:longitud});
         map.setZoom(17);
 
+        inputOrigen.value = new google.maps.LatLng(latitud,longitud);
+
         markerOrigen.setVisible(true);
 
-        detalleUbicacionOrigen.setContent('<div><strong>Mi ubicación</strong><br>');
+        detalleUbicacionOrigen.setContent('<div><strong>Mi ubicación actual</strong><br>');
         detalleUbicacionOrigen.open(map, markerOrigen);
     }
 
@@ -106,7 +118,28 @@ function initMap() {
         return marker;
     }
 
-    var funcionError = function(error) {
-        alert("Tenemos un problema para encontrar tu ubicación");
+    function dibujarRuta(directionsService, directionsDisplay) {
+        var origin = document.getElementById("origen").value;
+        var destination = document.getElementById('destino').value;
+
+        if(destination != "" && destination != "") {
+            directionsService.route({
+                origin: origin,
+                destination: destination,
+                travelMode: "DRIVING"
+            },
+            function(response, status) {
+                if (status === "OK") {
+                    directionsDisplay.setDirections(response);
+                } else {
+                    funcionErrorRuta();
+                }
+            });
+        }
     }
+
+    function funcionErrorRuta() {
+        alert("No ingresaste un origen y un destino validos");
+    }
+
 }
